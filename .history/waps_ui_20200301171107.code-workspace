@@ -18,8 +18,7 @@
 			"**/.history": true,
 			".history": true,
 			"**/.idea": true,
-			".idea": true,
-			"node_modules": true
+			".idea": true
 		},
 		"explorerExclude.backup": null
 	}
