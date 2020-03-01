@@ -1,0 +1,58 @@
+//应用详情
+//内部依赖：wp_info_top,wp_info_imglist,wp_cell_gift
+//todo:参数化
+<!--bg_img-->
+<!--icon_img-->
+<template>
+    <div>
+        <wp_info_top :bg_img="bg_img" :icon_img="icon_img" :title="title" :type="type" :info="info">
+            <slot></slot>
+        </wp_info_top>
+        <wp_info_imglist :images="imgList"/>
+        <wp_cell_gift gift_title="西游之路-新手礼包" gift_desc="琼浆*10000，铜钱*500000，boss挑战卡*5" git_btn_text="领取" ratio="30%"/>
+        <wp_cell_gift gift_title="西游之路-新手礼包" gift_desc="琼浆*10000，铜钱*500000，boss挑战卡*5" git_btn_text="领取"/>
+    </div>
+</template>
+
+<script>
+    import wp_info_top from "@/components/info/wp_info_top";
+    import wp_info_imglist from "@/components/info/wp_info_imglist";
+    import wp_cell_gift from "@/components/ext/wp_cell_gift";
+
+    export default {
+        name: "wp_info_app",
+        components: {
+            wp_info_top,
+            wp_info_imglist,
+            wp_cell_gift
+        },
+        props:{
+            bg_icon:{
+                type:String,
+                default:'http://img.m3guo.com/group4/M00/00/25/wKgMHFvPEhuALmrvAATUW_P9vXE006.jpg'
+            },
+            bg_img:{
+                type:String,
+                default:'http://img.m3guo.com/group4/M00/00/25/wKgMHFvPEhuALmrvAATUW_P9vXE006.jpg'
+            },
+            icon_img:String,
+            title:String,
+            info:String,
+            desc:String,
+            type:String
+        },
+        data(){
+            return{
+                imgList: ['http://img.m3guo.com/group4/M00/00/25/wKgMHFvPEhuALmrvAATUW_P9vXE006.jpg',
+                    'http://img.m3guo.com/group2/M00/00/D3/wKgMHFvPEh6ABMY4AAUhjz8vV5w059.jpg',
+                    'http://img.m3guo.com/group3/M00/00/D3/wKgMHFvPEiGAMiJ1AATnlDH9fzY017.jpg',
+                    'http://img.m3guo.com/group4/M00/00/25/wKgMHFvPEiSAMEpEAAS1znMTSe8763.jpg',
+                    'http://img.m3guo.com/group2/M00/00/D3/wKgMHFvPEi2ATCqfAAS4EPyjwXc834.jpg']
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

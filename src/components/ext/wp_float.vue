@@ -1,0 +1,148 @@
+<template>
+    <div>
+        <div class="menu" id="moveDiv" ref="moveDiv"
+             @mousedown="down" @touchstart="down"
+             @mousemove="move" @touchmove="move"
+             @mouseup="end" @touchend="end"
+        >
+            <table>
+                <tr>
+                    <td>
+                        <wp_circle radius="45" :percent="percent" :r="50" @click.native="menuClick">
+                            <slot name="default">
+                            </slot>
+                        </wp_circle>
+                    </td>
+                    <td v-if="showMenu">
+                        <slot name="sub_menu">
+                        </slot>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+
+    </div>
+</template>
+
+<script>
+    import wp_circle from "@/components/base/wp_circle";
+
+    export default {
+        name: "wp_float",
+        components: {wp_circle},
+        props: {
+            percent: {
+                type: Number,
+                default: 0.0
+            },
+        },
+        data() {
+            return {
+                showMenu: false,
+                radius: {
+                    type: String,
+                    default: '45px'
+                },
+
+                r0_color: {
+                    type: String,
+                    default: '#e7eef2'
+                },
+                r1_color: {
+                    type: String,
+                    default: '#00b04d'
+                },
+                screenWidth: document.body.clientWidth, // 屏幕尺寸
+                screenHeight: document.documentElement.clientHeight, // 屏幕尺寸
+                flags: false,
+                position: {x: 0, y: 0},
+                nx: '', ny: '', dx: '', dy: '', xPum: '', yPum: '',
+                moveDiv: null
+            }
+        },
+        methods: {
+            // 实现移动端拖拽
+            menuClick() {
+                this.showMenu = !this.showMenu;
+            },
+            down() {
+                this.flags = true;
+                var touch;
+                var moveDiv = this.$refs.moveDiv;
+                if (event.touches) {
+                    touch = event.touches[0];
+                } else {
+                    touch = event;
+                }
+                this.position.x = touch.clientX;
+                this.position.y = touch.clientY;
+                this.dx = moveDiv.offsetLeft;
+                this.dy = moveDiv.offsetTop;
+            },
+
+            move() {
+                if (this.flags) {
+                    var touch;
+                    var moveDiv = this.$refs.moveDiv;
+                    if (event.touches) {
+                        touch = event.touches[0];
+                    } else {
+                        touch = event;
+                    }
+                    this.nx = touch.clientX - this.position.x;
+                    this.ny = touch.clientY - this.position.y;
+                    this.xPum = this.dx + this.nx;
+                    this.yPum = this.dy + this.ny;
+                    moveDiv.style.left = this.xPum + "px";
+                    moveDiv.style.top = this.yPum + "px";
+                    //阻止页面的滑动默认事件；如果碰到滑动问题，1.2 请注意是否获取到 touchmove
+                    try {
+                        document.addEventListener("touchmove", function () {
+                            event.preventDefault();
+                        }, false);
+                    } catch (e) {
+                        e.toString()
+                    }
+                }
+            },
+//鼠标释放时候的函数
+            end() {
+                var moveDiv = this.$refs.moveDiv;
+                let _left = moveDiv.style.left;
+                let _top = moveDiv.style.top;
+                let _r = 45;
+                let _space = 5;
+                _left = _left.replace('px', '');
+                _top = _top.replace('px', '');
+                if (_left > (this.screenWidth / 2)) {
+                    moveDiv.style.left = (this.screenWidth - (_r + _space)) + 'px'
+                } else {
+                    moveDiv.style.left = "5px";
+                }
+                if (_top < _space) {
+                    moveDiv.style.top = _space + "px";
+                }
+                if (_top > (this.screenHeight - _r)) {
+                    moveDiv.style.top = (this.screenHeight - (_r + _space)) + 'px'
+                }
+                this.flags = false;
+            }
+        }
+    }
+</script>
+
+<style scoped>
+    .menu {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 99999;
+        text-align: left;
+        display: inline;
+    }
+
+    .submenu {
+        display: inline;
+    }
+</style>
