@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.18.1",
-    "npm": "^6.14.1",
+    "npm": "^6.14.6",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
     "vant": "^1.6.28",
