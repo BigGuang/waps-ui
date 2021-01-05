@@ -10,7 +10,7 @@
     "build-public": "vue-cli-service build --target lib --name waps-ui ./index.js"
   },
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "npm": "^6.14.1",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
